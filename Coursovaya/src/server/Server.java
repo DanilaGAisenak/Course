@@ -35,11 +35,11 @@ public class Server {
                     new Thread(clientSock).start();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Disconnected");
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Disconnected");
         }
     }
 }

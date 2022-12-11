@@ -130,6 +130,7 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         User user = new User(rs);
                         oos.writeObject((User)user);
+                        oos.flush();
                         System.out.println("Конец 3");
                     }break;
                     case 4/*Удаление пользователя*/: {
@@ -166,6 +167,7 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         Software sw = new Software(rs);
                         oos.writeObject((Software)sw);
+                        oos.flush();
                         System.out.println("Конец 6");
                     }break;
                     case 7/*Добавление ПО*/:{
@@ -217,6 +219,7 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         Hardware hw = new Hardware(rs);
                         oos.writeObject((Hardware)hw);
+                        oos.flush();
                         System.out.println("Конец 10");
                     }break;
                     case 11/*Добавление AО*/:{
@@ -269,6 +272,8 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         License license = new License(rs);
                         oos.writeObject((License)license);
+                        oos.flush();
+                        oos.flush();
                         //hwstatus
                         query = "select count(*) from hwstatus";
                         rs = stmt.executeQuery(query);
@@ -282,6 +287,7 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         Hws hws = new Hws(rs);
                         oos.writeObject((Hws)hws);
+                        oos.flush();
                         //company
                         query = "select count(*) from company";
                         rs = stmt.executeQuery(query);
@@ -295,6 +301,7 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         Company com = new Company(rs);
                         oos.writeObject((Company)com);
+                        oos.flush();
                         System.out.println("Конец 14");
                     }break;
                     case 15/*Добавление компании*/: {
@@ -409,14 +416,93 @@ public class ClientHandler implements Runnable{
                         oos.writeUTF("Command proceeded");
                         oos.flush();
                         System.out.println("Конец 23");
-                    }
+                    }break;
+                    case 24/*Таблица заказы*/:{
+                        String query = "select count(*) from orders";
+                        rs = stmt.executeQuery(query);
+                        Integer number = 0;
+                        while (rs.next()) {
+                            number = rs.getInt(1);
+                        }
+                        oos.writeObject(number);
+                        oos.flush();
+                        query = "select * from orders";
+                        rs = stmt.executeQuery(query);
+                        //Orders or = new Orders(rs);
+                        Orders or = new Orders(rs);
+                        oos.writeObject((Orders)or);
+                        oos.flush();
+                        System.out.println("Конец 24");
+                    }break;
+                    case 25/*Добавить заказ*/:{
+                        line = ois.readUTF();
+                        System.out.println("Sent from client " + line);
+                        String[] val = line.split(" ");
+                        String query = "INSERT Orders(id_Компании, id_АО, Количество) VALUES(?,?,?)";
+                        PreparedStatement statement = connection.prepareStatement(query);
+                        statement.setString(1, val[0]);
+                        statement.setString(2, val[1]);
+                        statement.setString(3,val[2]);
+                        statement.execute();
+                        oos.writeUTF("Command proceeded");
+                        oos.flush();
+                        System.out.println("Конец 25");
+                    }break;
+                    case 26/*Удалить заказ*/:{
+                        line = ois.readUTF();
+                        System.out.println("Sent from client " + line);
+                        String[] val = line.split(" ");
+                        String query = "DELETE FROM Orders WHERE id_Заказа="+val[0];
+                        stmt.executeUpdate(query);
+                        oos.writeUTF("Command proceeded");
+                        oos.flush();
+                        System.out.println("Конец 26");
+                    }break;
+                    case 27/*Изменить заказ*/:{
+                        line = ois.readUTF();
+                        String[] val = line.split(" ");
+                        PreparedStatement prep = connection.prepareStatement("UPDATE Orders SET Количество=? WHERE id_Заказа=?");
+                        prep.setString(1,val[0]);
+                        prep.setString(2,val[1]);
+                        prep.execute();
+                        oos.writeUTF("Command proceeded");
+                        oos.flush();
+                        System.out.println("Конец 27");
+                    }break;
+                    case 28/*Инфа компаний*/:{
+                        String query = "select count(*) from company";
+                        rs = stmt.executeQuery(query);
+                        Integer number = 0;
+                        while (rs.next()) {
+                            number = rs.getInt(1);
+                        }
+                        oos.writeObject(number);
+                        oos.flush();
+                        query = "select * from company";
+                        rs = stmt.executeQuery(query);
+                        Company com = new Company(rs);
+                        oos.writeObject((Company)com);
+                        oos.flush();
+                        System.out.println("Конец 28");
+                    }break;
+                    case 29/*добрить заказ*/:{
+                        line = ois.readUTF();
+                        String[] val = line.split(" ");
+                        PreparedStatement prep = connection.prepareStatement("UPDATE Orders SET Одобрено=? WHERE id_Заказа=?");
+                        prep.setString(1,val[0]);
+                        prep.setString(2,val[1]);
+                        prep.execute();
+                        oos.writeUTF("Command proceeded");
+                        oos.flush();
+                        System.out.println("Конец 29");
+                    }break;
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Disconnected");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Disconnected");
         } finally {
             try{
                 stmt.close();
@@ -428,7 +514,7 @@ public class ClientHandler implements Runnable{
                     clientSocket.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Disconnected");
             }
         }
     }

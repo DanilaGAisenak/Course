@@ -1,5 +1,6 @@
 package client;
 
+import server.Hardware;
 import server.Hws;
 import server.License;
 
@@ -43,6 +44,7 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
     private JButton deleteCompany;
     private JButton close;
     private JButton refresh;
+    private JButton order;
     private ArrayList<Integer> idHws;
     private ArrayList<Integer> companyIdHw;
     private ArrayList<Integer> hwId;
@@ -171,6 +173,7 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
                 if (companyT.getSelectedRowCount() > 0){
                     editCompany.setEnabled(true);
                     deleteCompany.setEnabled(true);
+                    order.setEnabled(true);
                     addLicense.setEnabled(true);
                     addHws.setEnabled(true);
                     int row = companyT.getSelectedRow();
@@ -184,6 +187,7 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
                     deleteCompany.setEnabled(false);
                     addLicense.setEnabled(false);
                     addHws.setEnabled(false);
+                    order.setEnabled(false);
                 }
             }
         });
@@ -270,6 +274,14 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
         deleteLicense.setVisible(true);
         deleteLicense.setEnabled(false);
         panel.add(deleteLicense);
+
+        order = new JButton("Заказы");
+        order.setSize(190,40);
+        order.setLocation(805,150);
+        order.addActionListener(this::actionOrderLiPerformed);
+        order.setVisible(true);
+        order.setEnabled(false);
+        panel.add(order);
 
         addHws = new JButton("Внести данные об АО");
         addHws.setSize(190,40);
@@ -359,6 +371,30 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
 
         setContentPane(panel);
         objSi.setVisible(false);
+    }
+
+    private void actionOrderLiPerformed(ActionEvent actionEvent) {
+        Integer num = 10;
+        try {
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer number = 0;
+            number = (Integer) ois.readObject();
+            server.Hardware hw = (server.Hardware) ois.readObject();
+            num = 24;
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer number1 = 0;
+            number1 = (Integer) ois.readObject();
+            server.Orders or = (server.Orders) ois.readObject();
+            OrdersFrame of = new OrdersFrame(ois,oos,this,hw,or,number1,comIdSel, nameComSel);
+            of.setVisible(true);
+            this.setVisible(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /*Обновить таблицы*/private void actionRefPerformed(ActionEvent actionEvent) {

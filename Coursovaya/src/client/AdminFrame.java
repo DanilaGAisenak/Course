@@ -22,6 +22,7 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
     private JButton company;
     private JButton close;
     private JButton refresh;
+    private JButton order;
     private ObjectInputStream ois = null;
     private ObjectOutputStream oos = null;
     private server.User user;
@@ -154,12 +155,40 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
         company.setVisible(true);
         panel.add(company);
 
+        order = new JButton("Заказы");
+        order.addActionListener(this::actionOrdPerformed);
+        order.setSize(250,50);
+        order.setLocation(150,260);
+        order.setVisible(true);
+        panel.add(order);
+
 
         setContentPane(panel);
         panel.setVisible(true);
     }
 
-    private void actionSortPerformed(ActionEvent actionEvent) {
+    private void actionOrdPerformed(ActionEvent actionEvent) {
+        Integer num = 10;
+        try {
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer number = 0;
+            number = (Integer) ois.readObject();
+            server.Hardware hw = (server.Hardware) ois.readObject();
+            num = 24;
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer number1 = 0;
+            number1 = (Integer) ois.readObject();
+            server.Orders or = (server.Orders) ois.readObject();
+            OrdersFrameA of = new OrdersFrameA(ois,oos,this,hw,or,number1,"", "");
+            of.setVisible(true);
+            this.setVisible(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void actionComPerformed(ActionEvent actionEvent) {
