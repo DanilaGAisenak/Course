@@ -350,31 +350,35 @@ public class AddOrder extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (choice==0){
-            Integer idPost = 0;
-            String sel = (String) cbHw.getSelectedItem();
-            for (int i = 0; i < nameList.size(); i++){
-                if (sel.equals(nameList.get(i))){
-                    idPost = idList.get(i);
+            if (!amount.getText().isEmpty()) {
+                Integer idPost = 0;
+                String sel = (String) cbHw.getSelectedItem();
+                for (int i = 0; i < nameList.size(); i++) {
+                    if (sel.equals(nameList.get(i))) {
+                        idPost = idList.get(i);
+                    }
                 }
-            }
-            try {
-                oos.writeUTF(num.toString());
-                oos.flush();
-                String res = comId+" "+idPost+" "+amount.getText();
-                oos.writeUTF(res);
-                oos.flush();
-                String line = ois.readUTF();
-                if (line.equals("Command proceeded")) {
-                    WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
-                    line = "";
-                    this.dispose();
-                } else {
-                    WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
-                    line = "";
-                    this.dispose();
+                try {
+                    oos.writeUTF(num.toString());
+                    oos.flush();
+                    String res = comId + " " + idPost + " " + amount.getText();
+                    oos.writeUTF(res);
+                    oos.flush();
+                    String line = ois.readUTF();
+                    if (line.equals("Command proceeded")) {
+                        WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
+                        line = "";
+                        this.dispose();
+                    } else {
+                        WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
+                        line = "";
+                        this.dispose();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } else {
+                WarningDialog wd = new WarningDialog(null, true, panel, "Количество не введено");
             }
 
         }
@@ -398,6 +402,7 @@ public class AddOrder extends JDialog implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (choice==3) {
+            if (!amount.getText().isEmpty()) {
             try{
                 oos.writeUTF(num.toString());
                 oos.flush();
@@ -416,26 +421,33 @@ public class AddOrder extends JDialog implements ActionListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            } else {
+                WarningDialog wd = new WarningDialog(null, true, panel, "Количество не введено");
+            }
         }
         else if (choice==4) {
-            try{
-                oos.writeUTF(num.toString());
-                oos.flush();
-                Integer permit = 1;
-                oos.writeUTF(permit.toString()+" "+idOr);
-                oos.flush();
-                String line = ois.readUTF();
-                if (line.equals("Command proceeded")) {
-                    WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
-                    line = "";
-                    this.dispose();
-                } else {
-                    WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
-                    line = "";
-                    this.dispose();
+            if (!amount.getText().isEmpty()) {
+                try {
+                    oos.writeUTF(num.toString());
+                    oos.flush();
+                    Integer permit = 1;
+                    oos.writeUTF(permit.toString() + " " + idOr);
+                    oos.flush();
+                    String line = ois.readUTF();
+                    if (line.equals("Command proceeded")) {
+                        WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
+                        line = "";
+                        this.dispose();
+                    } else {
+                        WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
+                        line = "";
+                        this.dispose();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } else {
+                WarningDialog wd = new WarningDialog(null, true, panel, "Количество не введено");
             }
         }
     }

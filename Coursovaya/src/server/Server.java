@@ -11,7 +11,23 @@ public class Server {
     private static ObjectOutputStream oos;
 
     public static void main(String[] args) {
-        String con = "jdbc:mysql://localhost:3306/KP";
+        String everything="";
+        try(BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            everything = sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] val = everything.split(" ");
+        String con = val[0];
+        //String con = "jdbc:mysql://localhost:3306/KP";
         try (Connection connection = DriverManager.getConnection(con, "root", "Admin2001");) {
             System.out.println("Connected");
 
@@ -39,7 +55,8 @@ public class Server {
             }
 
         } catch (SQLException e) {
-            System.out.println("Disconnected");
+            e.printStackTrace();
+            //System.out.println("Disconnected");
         }
     }
 }

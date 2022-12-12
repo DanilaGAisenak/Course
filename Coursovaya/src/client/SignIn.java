@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.sql.ResultSet;
 
 public class SignIn extends JFrame implements ActionListener, WindowListener {
-    private JTextField passwordSignIn;
+    private JPasswordField passwordSignIn;
     private JButton sendSignIn;
     private JButton registerSignIn;
     private JButton closeSignIn;
@@ -45,7 +45,7 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
         panel = new JPanel();
         panel.setLayout(null);
 
-        passwordSignIn = new JTextField();
+        passwordSignIn = new JPasswordField();
         passwordSignIn.setSize(200, 40);
         passwordSignIn.setLocation(150, 160);
         passwordSignIn.setVisible(true);
@@ -120,7 +120,7 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
                 String pas = new String();
                 String res = new String();
                 log = loginSignIn.getText();
-                pas = passwordSignIn.getText();
+                pas = String.valueOf(passwordSignIn.getPassword());
                 res = log + " " + pas;
                 oos.writeUTF(res);
                 oos.flush();
@@ -174,6 +174,7 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
             }
         }
         else {
+            WarningDialog wd = new WarningDialog(null,true,panel,"Не введены логин и пароль");
         }
     }
 

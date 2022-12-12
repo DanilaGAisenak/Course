@@ -185,25 +185,34 @@ public class Delete extends JDialog implements ActionListener {
     }
 
     private void actionEditPerformed(ActionEvent actionEvent) {
-        try {
-            oos.writeUTF(number.toString());
-            oos.flush();
-            oos.writeUTF(name.getText()+" "+price.getText()+" "+manufacturer.getText()+" "+id.getText());
-            oos.flush();
-            String line= ois.readUTF();
-            System.out.println(line);
-            if (line.equals("Command proceeded")){
-                WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
-                line="";
-                this.dispose();
+        if (!name.getText().isEmpty() & !price.getText().isEmpty() & !manufacturer.getText().isEmpty()) {
+            try {
+                oos.writeUTF(number.toString());
+                oos.flush();
+                oos.writeUTF(name.getText() + " " + price.getText() + " " + manufacturer.getText() + " " + id.getText());
+                oos.flush();
+                String line = ois.readUTF();
+                System.out.println(line);
+                if (line.equals("Command proceeded")) {
+                    WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
+                    line = "";
+                    this.dispose();
+                } else {
+                    WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
+                    line = "";
+                    this.dispose();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else {
-                WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
-                line="";
-                this.dispose();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else if (!name.getText().isEmpty() & !price.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Производитель не введен");
+        } else if (!name.getText().isEmpty() & !manufacturer.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Цена не введена");
+        } else if (!manufacturer.getText().isEmpty() & !price.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Название не введено");
+        } else {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Ни одно поле не заполнено");
         }
     }
 

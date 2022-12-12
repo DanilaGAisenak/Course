@@ -162,6 +162,7 @@ public class DeleteDialog extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!loginDelete.getText().isEmpty() & !passwordDelete.getText().isEmpty()) {
         String res = delId.getText() + " " + loginDelete.getText() + " " + passwordDelete.getText();
         Integer num = choice==0? 4: 5;
         try{
@@ -185,6 +186,13 @@ public class DeleteDialog extends JDialog implements ActionListener {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+        } else if(!loginDelete.getText().isEmpty()){
+            WarningDialog wd = new WarningDialog(null, true, panel, "Пароль не введен");
+        } else if (!passwordDelete.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Логин не введен");
+        } else {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Логин и пароль не введены");
         }
     }
 }

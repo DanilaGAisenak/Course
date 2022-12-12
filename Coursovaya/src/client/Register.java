@@ -77,39 +77,45 @@ public class Register extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String log;
-        String pas;
-        String res;
-        String line="";
-        log = loginRegister.getText();
-        pas = passwordRegister.getText();
-        res = log + " " + pas;
-        Integer num = 2;
-        try {
-            oos.flush();
-            oos.writeUTF(num.toString());
-            oos.flush();
-            oos.writeUTF(res);
-            oos.flush();
-            loginRegister.setText("");
-            passwordRegister.setText("");
-            line= ois.readUTF();
-            System.out.println(line);
-            if (line.equals("Command proceeded")){
-                WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
-                epanel.setVisible(true);
-                line="";
-                this.dispose();
+        if (!loginRegister.getText().isEmpty() & !passwordRegister.getText().isEmpty()) {
+            String log;
+            String pas;
+            String res;
+            String line = "";
+            log = loginRegister.getText();
+            pas = passwordRegister.getText();
+            res = log + " " + pas;
+            Integer num = 2;
+            try {
+                oos.flush();
+                oos.writeUTF(num.toString());
+                oos.flush();
+                oos.writeUTF(res);
+                oos.flush();
+                loginRegister.setText("");
+                passwordRegister.setText("");
+                line = ois.readUTF();
+                System.out.println(line);
+                if (line.equals("Command proceeded")) {
+                    WarningDialog wd = new WarningDialog(null, true, panel, "Успешно");
+                    epanel.setVisible(true);
+                    line = "";
+                    this.dispose();
+                } else {
+                    WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
+                    epanel.setVisible(true);
+                    line = "";
+                    this.dispose();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-            else {
-                WarningDialog wd = new WarningDialog(null, true, panel, "Ошибка");
-                epanel.setVisible(true);
-                line="";
-                this.dispose();
-            }
-        }
-        catch (IOException ex){
-            ex.printStackTrace();
+        } else if(!loginRegister.getText().isEmpty()){
+            WarningDialog wd = new WarningDialog(null, true, panel, "Пароль не введен");
+        } else if (!passwordRegister.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Логин не введен");
+        } else {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Логин и пароль не введены");
         }
     }
 
