@@ -81,6 +81,7 @@ public class OrdersFrame extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         for (int i = 0; i < this.num; i++){
+             if (companyId.get(i).toString().equals(comId)) {
                 String[] row = new String[6];
                 row[0] = orderId.get(i).toString();
                 row[1] = companyId.get(i).toString();
@@ -88,6 +89,15 @@ public class OrdersFrame extends JFrame implements ActionListener {
                 row[3] = am.get(i).toString();
                 row[4] = bool.get(i).toString();
                 otm.addData(row);
+            } else if (comId.equals("")) {
+                 String[] row = new String[6];
+                 row[0] = orderId.get(i).toString();
+                 row[1] = companyId.get(i).toString();
+                 row[2] = hardwareId.get(i).toString();
+                 row[3] = am.get(i).toString();
+                 row[4] = bool.get(i).toString();
+                 otm.addData(row);
+             }
         }
 
         orTable = new JTable(otm);
@@ -197,7 +207,6 @@ public class OrdersFrame extends JFrame implements ActionListener {
     }
 
     private void actionRefPerformed(ActionEvent actionEvent) {
-        if (flag==0){
             Integer num = 24;
             try {
                 otm.deleteData();
@@ -212,13 +221,23 @@ public class OrdersFrame extends JFrame implements ActionListener {
                 this.am = or.getAm();
                 this.bool = or.getBool();
                 for (int i = 0; i < number1; i++){
-                    String[] row = new String[6];
-                    row[0] = orderId.get(i).toString();
-                    row[1] = companyId.get(i).toString();
-                    row[2] = hwId.get(i).toString();
-                    row[3] = am.get(i).toString();
-                    row[4] = bool.get(i).toString();
-                    otm.addData(row);
+                    if (comId.equals("")) {
+                        String[] row = new String[6];
+                        row[0] = orderId.get(i).toString();
+                        row[1] = companyId.get(i).toString();
+                        row[2] = hardwareId.get(i).toString();
+                        row[3] = am.get(i).toString();
+                        row[4] = bool.get(i).toString();
+                        otm.addData(row);
+                    } else if (comId.equals(companyId.get(i).toString())) {
+                        String[] row = new String[6];
+                        row[0] = orderId.get(i).toString();
+                        row[1] = companyId.get(i).toString();
+                        row[2] = hardwareId.get(i).toString();
+                        row[3] = am.get(i).toString();
+                        row[4] = bool.get(i).toString();
+                        otm.addData(row);
+                    }
                 }
                 orTable.repaint();
             } catch (IOException e) {
@@ -226,8 +245,6 @@ public class OrdersFrame extends JFrame implements ActionListener {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            flag++;
-        }
     }
 
     private void actionClosePerformed(ActionEvent actionEvent) {

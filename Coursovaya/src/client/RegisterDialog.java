@@ -114,14 +114,23 @@ public class RegisterDialog extends JDialog implements ActionListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else if (!name.getText().isEmpty() & !price.getText().isEmpty()) {
+        }else if (name.getText().isEmpty() & manufacturer.getText().isEmpty() & price.getText().isEmpty()){
+            WarningDialog wd = new WarningDialog(null, true, panel, "Ни одно поле не заполнено");
+        }
+        else if (!name.getText().isEmpty() & !price.getText().isEmpty()) {
             WarningDialog wd = new WarningDialog(null, true, panel, "Производитель не введен");
         } else if (!name.getText().isEmpty() & !manufacturer.getText().isEmpty()) {
             WarningDialog wd = new WarningDialog(null, true, panel, "Цена не введена");
         } else if (!manufacturer.getText().isEmpty() & !price.getText().isEmpty()) {
             WarningDialog wd = new WarningDialog(null, true, panel, "Название не введено");
-        } else {
-            WarningDialog wd = new WarningDialog(null, true, panel, "Ни одно поле не заполнено");
+        }else if (name.getText().isEmpty() & price.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Введен только производитель");
+        } else if (manufacturer.getText().isEmpty() & price.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Введено только название");
         }
+        else if (name.getText().isEmpty() & manufacturer.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null, true, panel, "Введена только цена");
+        }
+
     }
 }

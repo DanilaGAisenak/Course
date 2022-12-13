@@ -65,9 +65,6 @@ public class ClientHandler implements Runnable{
                            pass[j] = rs.getString(3);
                            j++;
                        }
-                       //for (int i = 0; i < login.length; i++) {
-                       //    System.out.println(id[i] + " " + login[i] + " " + pass[i]);
-                       //}
                        int counter = 0;
                        for (int i = 0; i < login.length; i++) {
                            if (login[i].equals(val[0])) {
@@ -95,7 +92,7 @@ public class ClientHandler implements Runnable{
                                //os.writeUTF("0");
                                //os.flush();
                            }
-                           if (counter == login.length - 1) {
+                           if (counter == login.length) {
                                oos.writeUTF(result.toString());
                                oos.flush();
                            }
@@ -272,7 +269,6 @@ public class ClientHandler implements Runnable{
                         rs = stmt.executeQuery(query);
                         License license = new License(rs);
                         oos.writeObject((License)license);
-                        oos.flush();
                         oos.flush();
                         //hwstatus
                         query = "select count(*) from hwstatus";

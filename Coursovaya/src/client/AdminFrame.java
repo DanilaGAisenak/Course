@@ -307,67 +307,13 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
         objSi.setVisible(true);
     }
     public void actionRefPerformed(ActionEvent e){
-        if (flag==0) {
             Integer numReg = 3;
             try {
+                utm.deleteData();
                 oos.writeUTF(numReg.toString());
                 oos.flush();
                 Integer num1 = 0;
                 num1 = (Integer) ois.readObject();
-                if (num1 > admTable.getRowCount() & num1 - admTable.getRowCount() == 1) {
-                    this.user = (server.User) ois.readObject();
-                    this.id = this.user.getId();
-                    this.login = this.user.getLogin();
-                    this.pass = this.user.getPassword();
-                    String[] row = new String[3];
-                    row[0] = id.get(num1 - 1).toString();
-                    row[1] = login.get(num1 - 1);
-                    row[2] = pass.get(num1 - 1);
-                    utm.addData(row);
-                    admTable.repaint();
-                    refresh.setEnabled(false);
-                } else if (num1 > admTable.getRowCount()) {
-                    this.user = (server.User) ois.readObject();
-                    this.id = this.user.getId();
-                    this.login = this.user.getLogin();
-                    this.pass = this.user.getPassword();
-                    for (int i = admTable.getRowCount(); i < num1; i++) {
-                        String[] row = new String[3];
-                        row[0] = id.get(i).toString();
-                        row[1] = login.get(i);
-                        row[2] = pass.get(i);
-                        utm.addData(row);
-                    }
-                    admTable.repaint();
-                    refresh.setEnabled(false);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            flag++;
-        } else if (flag == 2) {
-            utm.deleteData();
-            admTable.repaint();
-            Integer numReg = 3;
-            try {
-                oos.writeUTF(numReg.toString());
-                oos.flush();
-                Integer num1 = 0;
-                num1 = (Integer) ois.readObject();
-                if (num1 > admTable.getRowCount() & num1 - admTable.getRowCount() == 1) {
-                    this.user = (server.User) ois.readObject();
-                    this.id = this.user.getId();
-                    this.login = this.user.getLogin();
-                    this.pass = this.user.getPassword();
-                    String[] row = new String[3];
-                    row[0] = id.get(num1 - 1).toString();
-                    row[1] = login.get(num1 - 1);
-                    row[2] = pass.get(num1 - 1);
-                    utm.addData(row);
-                    admTable.repaint();
-                } else if (num1 > admTable.getRowCount()) {
                     this.user = (server.User) ois.readObject();
                     this.id = this.user.getId();
                     this.login = this.user.getLogin();
@@ -381,14 +327,11 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
                     }
                     admTable.repaint();
                     refresh.setEnabled(false);
-                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-            flag++;
-        }
     }
 
     @Override

@@ -83,6 +83,8 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
     private server.Software sw;
     private Integer amSw;
     private Integer amHw;
+    private ArrayList<Integer> remember = new ArrayList<Integer>();
+    private int j = 0;
     private int flag=0;
 
     public UserFrame(ObjectInputStream ois, ObjectOutputStream oos, SignIn si, Integer id, String log, String pas,
@@ -126,6 +128,8 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
         this.idUser = com.getIdUser();
         //Company
 
+
+
         for (int i = 0; i < this.amountCom; i++){
             if (this.id.equals(idUser.get(i))) {
                 String[] row = new String[4];
@@ -134,26 +138,36 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
                 row[2] = amount.get(i).toString();
                 row[3] = idUser.get(i).toString();
                 ctm.addData(row);
+                remember.add(i);
+                j++;
             }
         }
 
         for (int i = 0; i < this.amountHws; i++){
-            String[] row = new String[6];
-            row[0] = idHws.get(i).toString();
-            row[1] = companyIdHw.get(i).toString();
-            row[2] = hwId.get(i).toString();
-            row[3] = dateStartHw.get(i);
-            row[4] = dateEndHw.get(i);
-            row[5] = amountHw.get(i).toString();
-            hwsm.addData(row);
+            for (int j1 = 0; j1 < j; j1++) {
+                if (companyId.get(remember.get(j1)).equals(companyIdHw.get(i))) {
+                    String[] row = new String[6];
+                    row[0] = idHws.get(i).toString();
+                    row[1] = companyIdHw.get(i).toString();
+                    row[2] = hwId.get(i).toString();
+                    row[3] = dateStartHw.get(i);
+                    row[4] = dateEndHw.get(i);
+                    row[5] = amountHw.get(i).toString();
+                    hwsm.addData(row);
+                }
+            }
         }
         for (int i = 0; i < this.amountLicense; i++){
-            String[] row = new String[4];
-            row[0] = idLicense.get(i).toString();
-            row[1] = companyIdSw.get(i).toString();
-            row[2] = swId.get(i).toString();
-            row[3] = dateEndSw.get(i);
-            ltm.addData(row);
+            for (int j1 = 0; j1 < j; j1++) {
+                if (companyId.get(remember.get(j1)).equals(companyIdSw.get(i))) {
+                    String[] row = new String[4];
+                    row[0] = idLicense.get(i).toString();
+                    row[1] = companyIdSw.get(i).toString();
+                    row[2] = swId.get(i).toString();
+                    row[3] = dateEndSw.get(i);
+                    ltm.addData(row);
+                }
+            }
         }
 
         setSize(1400,900);
@@ -387,8 +401,8 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
             Integer number1 = 0;
             number1 = (Integer) ois.readObject();
             server.Orders or = (server.Orders) ois.readObject();
-            OrdersFrame of = new OrdersFrame(ois,oos,this,hw,or,number1,comIdSel, nameComSel);
-            of.setVisible(true);
+                    OrdersFrame of = new OrdersFrame(ois,oos,this,hw,or,number1,comIdSel, nameComSel);
+                    of.setVisible(true);
             this.setVisible(false);
         } catch (IOException e) {
             e.printStackTrace();
@@ -413,12 +427,16 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
                 this.dateEndSw = license.getDateEnd();
                 ltm.deleteData();
                 for (int i = 0; i < num1; i++){
-                    String[] row = new String[4];
-                    row[0] = idLicense.get(i).toString();
-                    row[1] = companyIdSw.get(i).toString();
-                    row[2] = swId.get(i).toString();
-                    row[3] = dateEndSw.get(i);
-                    ltm.addData(row);
+                    for (int j1 = 0; j1 < j; j1++) {
+                        if (companyId.get(remember.get(j1)).equals(companyIdSw.get(i))) {
+                            String[] row = new String[4];
+                            row[0] = idLicense.get(i).toString();
+                            row[1] = companyIdSw.get(i).toString();
+                            row[2] = swId.get(i).toString();
+                            row[3] = dateEndSw.get(i);
+                            ltm.addData(row);
+                        }
+                    }
                 }
                 licenseT.repaint();
                 //license
@@ -435,14 +453,18 @@ public class UserFrame extends JFrame implements ActionListener, WindowListener 
                 this.dateEndHw = hws.getDateEnd();
                 this.amountHw = hws.getAmount();
                 for (int i = 0; i < numberH; i++){
-                    String[] row = new String[6];
-                    row[0] = idHws.get(i).toString();
-                    row[1] = companyIdHw.get(i).toString();
-                    row[2] = hwId.get(i).toString();
-                    row[3] = dateStartHw.get(i);
-                    row[4] = dateEndHw.get(i);
-                    row[5] = amountHw.get(i).toString();
-                    hwsm.addData(row);
+                    for (int j1 = 0; j1 < j; j1++) {
+                        if (companyId.get(remember.get(j1)).equals(companyIdHw.get(i))) {
+                            String[] row = new String[6];
+                            row[0] = idHws.get(i).toString();
+                            row[1] = companyIdHw.get(i).toString();
+                            row[2] = hwId.get(i).toString();
+                            row[3] = dateStartHw.get(i);
+                            row[4] = dateEndHw.get(i);
+                            row[5] = amountHw.get(i).toString();
+                            hwsm.addData(row);
+                        }
+                    }
                 }
                 hwT.repaint();
                 //hws

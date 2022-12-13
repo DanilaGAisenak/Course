@@ -124,10 +124,11 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
                 res = log + " " + pas;
                 oos.writeUTF(res);
                 oos.flush();
-                loginSignIn.setText("");
-                passwordSignIn.setText("");
                 String line = ois.readUTF();
                 System.out.println(line);
+                System.out.println("here");
+                loginSignIn.setText("");
+                passwordSignIn.setText("");
                 if (Integer.parseInt(line) == (Integer)1) {
                     System.out.println("here");
                     line = ois.readUTF();
@@ -166,14 +167,19 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
                     }
                 } else {
                    WarningDialog wd = new WarningDialog(null, true, panel);
+                    loginSignIn.setText("");
+                    passwordSignIn.setText("");
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-        }
-        else {
+        } else if (!loginSignIn.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null,true,panel,"Не введен пароль");
+        } else if (!passwordSignIn.getText().isEmpty()) {
+            WarningDialog wd = new WarningDialog(null,true,panel,"Не введен логин");
+        } else {
             WarningDialog wd = new WarningDialog(null,true,panel,"Не введены логин и пароль");
         }
     }

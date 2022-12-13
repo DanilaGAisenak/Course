@@ -134,53 +134,7 @@ public class HardwareFrame extends JFrame implements ActionListener, WindowListe
     }
 
     private void actionRefPerformed(ActionEvent actionEvent) {
-        if (flag==0){
-            Integer numReg = 10;
-            try {
-                oos.writeUTF(numReg.toString());
-                oos.flush();
-                Integer num1 = 0;
-                num1 = (Integer) ois.readObject();
-                if (num1 > hwTable.getRowCount() & num1 - hwTable.getRowCount() == 1) {
-                    this.hardware = (Hardware) ois.readObject();
-                    this.id = this.hardware.getId();
-                    this.name = this.hardware.getName();
-                    this.price = this.hardware.getPrice();
-                    this.manufacturer = this.hardware.getManufacturer();
-                    String[] row = new String[4];
-                    row[0] = id.get(num1 - 1).toString();
-                    row[1] = name.get(num1 - 1);
-                    row[2] = price.get(num1 - 1).toString();
-                    row[3] = manufacturer.get(num1-1).toString();
-                    htm.addData(row);
-                    hwTable.repaint();
-                    refresh.setEnabled(false);
-                } else
-                if (num1 > hwTable.getRowCount()) {
-                    this.hardware = (Hardware) ois.readObject();
-                    this.id = this.hardware.getId();
-                    this.name = this.hardware.getName();
-                    this.price = this.hardware.getPrice();
-                    this.manufacturer = this.hardware.getManufacturer();
-                    for (int i = hwTable.getRowCount(); i < num1; i++) {
-                        String[] row = new String[4];
-                        row[0] = id.get(i).toString();
-                        row[1] = name.get(i);
-                        row[2] = price.get(i).toString();
-                        row[3] = manufacturer.get(i).toString();
-                        htm.addData(row);
-                    }
-                    hwTable.repaint();
-                    refresh.setEnabled(false);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            flag++;
-        }
-        else if(flag==2){
+
             htm.deleteData();
             hwTable.repaint();
             Integer numReg = 10;
@@ -210,8 +164,6 @@ public class HardwareFrame extends JFrame implements ActionListener, WindowListe
                 e.printStackTrace();
             }
             flag++;
-        }
-
     }
 
     private void actionClosePerformed(ActionEvent actionEvent) {

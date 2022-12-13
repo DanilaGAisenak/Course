@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 public class Register extends JDialog implements ActionListener {
     private JTextField loginRegister;
-    private JTextField passwordRegister;
+    private JPasswordField passwordRegister;
     private JLabel loginLa;
     private JLabel passLa;
     private JButton sendRegister;
@@ -40,7 +40,7 @@ public class Register extends JDialog implements ActionListener {
         loginRegister.setVisible(true);
         panel.add(loginRegister);
 
-        passwordRegister = new JTextField();
+        passwordRegister = new JPasswordField();
         passwordRegister.setSize(200, 40);
         passwordRegister.setLocation(150, 160);
         passwordRegister.setVisible(true);
@@ -83,7 +83,7 @@ public class Register extends JDialog implements ActionListener {
             String res;
             String line = "";
             log = loginRegister.getText();
-            pas = passwordRegister.getText();
+            pas = String.valueOf(passwordRegister.getPassword());
             res = log + " " + pas;
             Integer num = 2;
             try {
