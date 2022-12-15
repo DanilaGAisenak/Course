@@ -47,7 +47,7 @@ public class UsersTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "idПользователя";
+            case 0: return "Номер_Пользователя";
             case 1: return "Логин";
             case 2: return "пароль";
         }

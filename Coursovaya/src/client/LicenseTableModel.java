@@ -44,9 +44,9 @@ public class LicenseTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "id_Лицензии";
-            case 1: return "id_Компании";
-            case 2: return "id_ПО";
+            case 0: return "Номер_Лицензии";
+            case 1: return "Номер_Компании";
+            case 2: return "Номер_ПО";
             case 3: return "Истечение срока";
         }
         return "";

@@ -42,7 +42,7 @@ public class HardwareTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "id_АО";
+            case 0: return "Номер_АО";
             case 1: return "Название_АО";
             case 2: return "Цена_АО";
             case 3: return "Производитель_АО";

@@ -42,10 +42,10 @@ public class CompanyTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "idКомпании";
+            case 0: return "Номер компании";
             case 1: return "Название_Компании";
             case 2: return "Количество_рабочих_станций";
-            case 3: return "id_Пользователя";
+            case 3: return "Номер_Пользователя";
         }
         return "";
     }

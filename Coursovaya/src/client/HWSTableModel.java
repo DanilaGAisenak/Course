@@ -44,9 +44,9 @@ public class HWSTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "id";
-            case 1: return "id_Компании";
-            case 2: return "id_АО";
+            case 0: return "Номер п/п";
+            case 1: return "Номер_Компании";
+            case 2: return "Номер_АО";
             case 3: return "Дата_Покупки_АО";
             case 4: return "Дата_Окончания_Срока_Эксплуатации";
             case 5: return "Количество";

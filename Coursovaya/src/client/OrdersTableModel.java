@@ -44,9 +44,9 @@ public class OrdersTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "id_Заказа";
-            case 1: return "id_Компании";
-            case 2: return "id_АО";
+            case 0: return "Номер_Заказа";
+            case 1: return "Номер_Компании";
+            case 2: return "Номер_АО";
             case 3: return "Количество";
             case 4: return "Одобрено";
         }

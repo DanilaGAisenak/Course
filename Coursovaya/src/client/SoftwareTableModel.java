@@ -42,7 +42,7 @@ public class SoftwareTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         switch (columnIndex){
-            case 0: return "id_ПО";
+            case 0: return "Номер_ПО";
             case 1: return "Название_ПО";
             case 2: return "Цена_за_год";
             case 3: return "Производитель_ПО";

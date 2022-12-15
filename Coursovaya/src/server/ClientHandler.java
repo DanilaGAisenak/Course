@@ -378,7 +378,7 @@ public class ClientHandler implements Runnable{
                         oos.writeUTF("Command proceeded");
                         oos.flush();
                         System.out.println("Конец 20");
-                    }
+                    }break;
                     case 21/*Удаление лицензии АО*/:{
                         line = ois.readUTF();
                         //String[] val = line.split(" ");
