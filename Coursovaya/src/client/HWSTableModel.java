@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class HWSTableModel extends AbstractTableModel {
-    private int columnCount = 6;
+    private int columnCount = 8;
     private ArrayList<String[]> data;
 
     public HWSTableModel() {
@@ -46,10 +46,12 @@ public class HWSTableModel extends AbstractTableModel {
         switch (columnIndex){
             case 0: return "Номер п/п";
             case 1: return "Номер_Компании";
-            case 2: return "Номер_АО";
-            case 3: return "Дата_Покупки_АО";
-            case 4: return "Дата_Окончания_Срока_Эксплуатации";
-            case 5: return "Количество";
+            case 2: return "Компания";
+            case 3: return "Номер_АО";
+            case 4: return "АО";
+            case 5: return "Дата_Покупки_АО";
+            case 6: return "Дата_Окончания_Срока_Эксплуатации";
+            case 7: return "Количество";
         }
         return "";
     }

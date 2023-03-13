@@ -1,5 +1,6 @@
 package client;
 
+import server.Company;
 import server.Hardware;
 
 import javax.swing.*;
@@ -49,10 +50,16 @@ public class OrdersFrame extends JFrame implements ActionListener {
     private int num; //кол-во строк в таблице
     private String comId;
     private String comName;
+    private ArrayList<Integer> comTtId = new ArrayList<Integer>();
+    private ArrayList<String> comTtName = new ArrayList<String>();
+    private Integer amCom;
     private int flag=0;
 
     public OrdersFrame(ObjectInputStream ois, ObjectOutputStream oos, UserFrame adf,
-                       Hardware hardware, server.Orders orders, int num, String idColSel, String comName) {
+                       Hardware hardware, server.Orders orders, int num, String idColSel, String comName, Company com, Integer amCom) {
+        this.amCom = amCom;
+        this.comTtId = com.getId();
+        this.comTtName = com.getName();
         this.ois = ois;
         this.oos = oos;
         this.uf = adf;
@@ -82,12 +89,22 @@ public class OrdersFrame extends JFrame implements ActionListener {
 
         for (int i = 0; i < this.num; i++){
              if (companyId.get(i).toString().equals(comId)) {
-                String[] row = new String[6];
+                String[] row = new String[7];
                 row[0] = orderId.get(i).toString();
                 row[1] = companyId.get(i).toString();
-                row[2] = hardwareId.get(i).toString();
-                row[3] = am.get(i).toString();
-                row[4] = bool.get(i).toString();
+                for (int j = 0; j < amCom; j++){
+                    if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                        row[2] = comTtName.get(j);
+                    }
+                }
+                row[3] = hwId.get(i).toString();
+                for (int j = 0; j < hardwareId.size(); j++){
+                    if (hwId.get(i).toString().equals(hardwareId.get(j).toString())){
+                        row[4] = hardwareName.get(j);
+                    }
+                }
+                row[5] = am.get(i).toString();
+                row[6] = bool.get(i).toString();
                 otm.addData(row);
             } else if (comId.equals("")) {
                  String[] row = new String[6];
@@ -111,9 +128,9 @@ public class OrdersFrame extends JFrame implements ActionListener {
                     int row = orTable.getSelectedRow();
                     setIdSel((String) orTable.getValueAt(row, 0));
                     setIdComSel((String) orTable.getValueAt(row, 1));
-                    setIdHwSel((String) orTable.getValueAt(row, 2));
-                    setAmount((String) orTable.getValueAt(row,3));
-                    setPermit((String) orTable.getValueAt(row, 4));
+                    setIdHwSel((String) orTable.getValueAt(row, 3));
+                    setAmount((String) orTable.getValueAt(row,5));
+                    setPermit((String) orTable.getValueAt(row, 6));
                 }
                 else {
                     edit.setEnabled(false);
@@ -222,20 +239,55 @@ public class OrdersFrame extends JFrame implements ActionListener {
                 this.bool = or.getBool();
                 for (int i = 0; i < number1; i++){
                     if (comId.equals("")) {
-                        String[] row = new String[6];
+                        //String[] row = new String[7];
+                        //row[0] = orderId.get(i).toString();
+                        //row[1] = companyId.get(i).toString();
+                        //row[2] = hardwareId.get(i).toString();
+                        //row[3] = am.get(i).toString();
+                        //row[4] = bool.get(i).toString();
+                        //otm.addData(row);
+                        String[] row = new String[7];
                         row[0] = orderId.get(i).toString();
                         row[1] = companyId.get(i).toString();
-                        row[2] = hardwareId.get(i).toString();
-                        row[3] = am.get(i).toString();
-                        row[4] = bool.get(i).toString();
+                        for (int j = 0; j < amCom; j++){
+                            if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                                row[2] = comTtName.get(j);
+                            }
+                        }
+                        row[3] = hwId.get(i).toString();
+                        for (int j = 0; j < hardwareId.size(); j++){
+                            if (hwId.get(i).toString().equals(hardwareId.get(j).toString())){
+                                row[4] = hardwareName.get(j);
+                            }
+                        }
+                        row[5] = am.get(i).toString();
+                        if (Integer.parseInt(bool.get(i).toString())==1){
+                            row[6] = "ќдобрено";
+                        } else if (Integer.parseInt(bool.get(i).toString())==0) {
+                            row[6] = "ќжидание";
+                        }
                         otm.addData(row);
                     } else if (comId.equals(companyId.get(i).toString())) {
-                        String[] row = new String[6];
+                        String[] row = new String[7];
                         row[0] = orderId.get(i).toString();
                         row[1] = companyId.get(i).toString();
-                        row[2] = hardwareId.get(i).toString();
-                        row[3] = am.get(i).toString();
-                        row[4] = bool.get(i).toString();
+                        for (int j = 0; j < amCom; j++){
+                            if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                                row[2] = comTtName.get(j);
+                            }
+                        }
+                        row[3] = hwId.get(i).toString();
+                        for (int j = 0; j < hardwareId.size(); j++){
+                            if (hwId.get(i).toString().equals(hardwareId.get(j).toString())){
+                                row[4] = hardwareName.get(j);
+                            }
+                        }
+                        row[5] = am.get(i).toString();
+                        if (Integer.parseInt(bool.get(i).toString())==1){
+                            row[6] = "ќдобрено";
+                        } else if (Integer.parseInt(bool.get(i).toString())==0) {
+                            row[6] = "ќжидание";
+                        }
                         otm.addData(row);
                     }
                 }

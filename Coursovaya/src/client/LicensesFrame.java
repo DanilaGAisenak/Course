@@ -1,6 +1,8 @@
 package client;
 
+import server.Company;
 import server.License;
+import server.Software;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,11 +37,23 @@ public class LicensesFrame extends JFrame implements ActionListener {
     private String liCompany;
     private String liDateEnd;
     private String liSwId;
+    private ArrayList<String> swTtName = new ArrayList<String>();
+    private ArrayList<String> comTtName = new ArrayList<String>();
+    private ArrayList<Integer> swTtId = new ArrayList<Integer>();
+    private ArrayList<Integer> comTtId = new ArrayList<Integer>();
+    private Integer swAm;
+    private Integer comAm;
     private int flag=0;
     private int num;//количество строк в таблице
 
     public LicensesFrame(JPanel ePanel, ObjectInputStream ois, ObjectOutputStream oos,
-                         AdminFrame adf, int num, License li) {
+                         AdminFrame adf, int num, License li, Software sw, Integer amSw, Company com, Integer amCom) {
+        this.comAm = amCom;
+        this.comTtId = com.getId();
+        this.comTtName = com.getName();
+        this.swAm = amSw;
+        this.swTtId = sw.getId();
+        this.swTtName = sw.getName();
         this.ePanel = ePanel;
         this.ois = ois;
         this.oos = oos;
@@ -61,11 +75,27 @@ public class LicensesFrame extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         for (int i = 0; i < num; i++){
-            String[] row = new String[4];
+            //String[] row = new String[4];
+            //row[0] = id.get(i).toString();
+            //row[1] = companyId.get(i).toString();
+            //row[2] = swId.get(i).toString();
+            //row[3] = dateEnd.get(i).toString();
+            //ltm.addData(row);
+            String[] row = new String[6];
             row[0] = id.get(i).toString();
             row[1] = companyId.get(i).toString();
-            row[2] = swId.get(i).toString();
-            row[3] = dateEnd.get(i).toString();
+            for (int j = 0; j < companyId.size(); j++){
+                if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                    row[2] = comTtName.get(j);
+                }
+            }
+            row[3] = swId.get(i).toString();
+            for (int j = 0; j < swTtId.size(); j++){
+                if (swId.get(i).toString().equals(swTtId.get(j).toString())){
+                    row[4] = swTtName.get(j);
+                }
+            }
+            row[5] = dateEnd.get(i);
             ltm.addData(row);
         }
         liTable = new JTable(ltm);

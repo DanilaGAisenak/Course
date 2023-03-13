@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class OrdersTableModel extends AbstractTableModel {
-    private int columnCount = 5;
+    private int columnCount = 7;
     private ArrayList<String[]> data;
 
     public OrdersTableModel() {
@@ -46,9 +46,11 @@ public class OrdersTableModel extends AbstractTableModel {
         switch (columnIndex){
             case 0: return "Номер_Заказа";
             case 1: return "Номер_Компании";
-            case 2: return "Номер_АО";
-            case 3: return "Количество";
-            case 4: return "Одобрено";
+            case 2: return "Компания";
+            case 3: return "Номер_АО";
+            case 4: return "АО";
+            case 5: return "Количество";
+            case 6: return "Одобрено";
         }
         return "";
     }

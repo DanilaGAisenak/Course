@@ -181,7 +181,15 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
             Integer number1 = 0;
             number1 = (Integer) ois.readObject();
             server.Orders or = (server.Orders) ois.readObject();
-            OrdersFrameA of = new OrdersFrameA(ois,oos,this,hw,or,number1,"", "");
+            //
+            num = 28;
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer amCom = 0;
+            amCom = (Integer) ois.readObject();
+            server.Company comp = (server.Company) ois.readObject();
+            //
+            OrdersFrameA of = new OrdersFrameA(ois,oos,this,hw,or,number1,"", "",comp,amCom);
             of.setVisible(true);
             this.setVisible(false);
         } catch (IOException e) {
@@ -294,7 +302,22 @@ public class AdminFrame extends JFrame implements ActionListener, WindowListener
             Integer numberC = 0;
             numberC = (Integer) ois.readObject();
             server.Company com = (server.Company) ois.readObject();
-            LicensesFrame lf = new LicensesFrame(panel,ois,oos,this,num1,license);
+            //
+            num = 6;
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer amSw = 0;
+            amSw = (Integer) ois.readObject();
+            server.Software sw = (server.Software) ois.readObject();
+            //
+            num = 28;
+            oos.writeUTF(num.toString());
+            oos.flush();
+            Integer amCom = 0;
+            amCom = (Integer) ois.readObject();
+            server.Company comp = (server.Company) ois.readObject();
+            //
+            LicensesFrame lf = new LicensesFrame(panel,ois,oos,this,num1,license, sw,amSw,comp,amCom);
             this.setVisible(false);
         } catch (IOException ex) {
             ex.printStackTrace();

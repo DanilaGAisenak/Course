@@ -162,7 +162,22 @@ public class SignIn extends JFrame implements ActionListener, WindowListener {
                         Integer numberC = 0;
                         numberC = (Integer) ois.readObject();
                         server.Company com = (server.Company) ois.readObject();
-                        UserFrame uf = new UserFrame(ois, oos,this,userId,log,pas,hws,license,com,numberH,num1,numberC);
+                        //
+                        num = 10;
+                        oos.writeUTF(num.toString());
+                        oos.flush();
+                        Integer amHw = 0;
+                        amHw = (Integer) ois.readObject();
+                        server.Hardware hw = (server.Hardware) ois.readObject();
+                        //
+                        num = 6;
+                        oos.writeUTF(num.toString());
+                        oos.flush();
+                        Integer amSw = 0;
+                        amSw = (Integer) ois.readObject();
+                        server.Software sw = (server.Software) ois.readObject();
+                        //
+                        UserFrame uf = new UserFrame(ois, oos,this,userId,log,pas,hws,license,com,numberH,num1,numberC,hw, amHw, sw, amSw);
                         uf.setVisible(true);
                     }
                 } else {

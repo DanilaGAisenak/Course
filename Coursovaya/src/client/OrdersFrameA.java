@@ -1,5 +1,6 @@
 package client;
 
+import server.Company;
 import server.Hardware;
 
 import javax.swing.*;
@@ -49,10 +50,16 @@ public class OrdersFrameA extends JFrame implements ActionListener {
     private int num; //кол-во строк в таблице
     private String comId;
     private String comName;
+    private ArrayList<Integer> comTtId = new ArrayList<Integer>();
+    private ArrayList<String> comTtName = new ArrayList<String>();
+    private Integer amCom;
     private int flag=0;
 
     public OrdersFrameA(ObjectInputStream ois, ObjectOutputStream oos, AdminFrame adf,
-                       Hardware hardware, server.Orders orders, int num, String idColSel, String comName) {
+                        Hardware hardware, server.Orders orders, int num, String idColSel, String comName, Company com, Integer amCom) {
+        this.amCom = amCom;
+        this.comTtId = com.getId();
+        this.comTtName = com.getName();
         this.ois = ois;
         this.oos = oos;
         this.uf = adf;
@@ -81,12 +88,22 @@ public class OrdersFrameA extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         for (int i = 0; i < this.num; i++){
-            String[] row = new String[6];
+            String[] row = new String[7];
             row[0] = orderId.get(i).toString();
             row[1] = companyId.get(i).toString();
-            row[2] = hardwareId.get(i).toString();
-            row[3] = am.get(i).toString();
-            row[4] = bool.get(i).toString();
+            for (int j = 0; j < amCom; j++){
+                if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                    row[2] = comTtName.get(j);
+                }
+            }
+            row[3] = hwId.get(i).toString();
+            for (int j = 0; j < hardwareId.size(); j++){
+                if (hwId.get(i).toString().equals(hardwareId.get(j).toString())){
+                    row[4] = hardwareName.get(j);
+                }
+            }
+            row[5] = am.get(i).toString();
+            row[6] = bool.get(i).toString();
             otm.addData(row);
         }
 
@@ -206,12 +223,22 @@ public class OrdersFrameA extends JFrame implements ActionListener {
                 this.am = or.getAm();
                 this.bool = or.getBool();
                 for (int i = 0; i < number1; i++){
-                    String[] row = new String[6];
+                    String[] row = new String[7];
                     row[0] = orderId.get(i).toString();
                     row[1] = companyId.get(i).toString();
-                    row[2] = hwId.get(i).toString();
-                    row[3] = am.get(i).toString();
-                    row[4] = bool.get(i).toString();
+                    for (int j = 0; j < amCom; j++){
+                        if (companyId.get(i).toString().equals(comTtId.get(j).toString())){
+                            row[2] = comTtName.get(j);
+                        }
+                    }
+                    row[3] = hwId.get(i).toString();
+                    for (int j = 0; j < hardwareId.size(); j++){
+                        if (hwId.get(i).toString().equals(hardwareId.get(j).toString())){
+                            row[4] = hardwareName.get(j);
+                        }
+                    }
+                    row[5] = am.get(i).toString();
+                    row[6] = bool.get(i).toString();
                     otm.addData(row);
                 }
                 orTable.repaint();

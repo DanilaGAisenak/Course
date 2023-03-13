@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class LicenseTableModel extends AbstractTableModel {
-    private int columnCount = 4;
+    private int columnCount = 6;
     private ArrayList<String[]> data;
 
     public LicenseTableModel() {
@@ -46,8 +46,10 @@ public class LicenseTableModel extends AbstractTableModel {
         switch (columnIndex){
             case 0: return "Номер_Лицензии";
             case 1: return "Номер_Компании";
-            case 2: return "Номер_ПО";
-            case 3: return "Истечение срока";
+            case 2: return "Компания";
+            case 3: return "Номер_ПО";
+            case 4: return "ПО";
+            case 5: return "Истечение срока";
         }
         return "";
     }
